@@ -1,11 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mood Reader – Emotion Detection</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-    <h1>App is working!!!</h1>
+<div class="glow"><i></i><i></i></div>
+<main>
+  <h1 aria-label="How are you feeling?"></h1>
+  <p class="sub">Write a sentence and a BiGRU neural network will tell you which of six emotions it carries.</p>
+
+  <section class="box">
+    <textarea id="txt" maxlength="2000" placeholder="I can't believe they remembered my birthday..." aria-label="Text to analyze"></textarea>
+    <div class="row">
+      <span class="count"><span id="n">0</span> / 2000</span>
+      <button class="go" id="go" disabled>Analyze</button>
+    </div>
+  </section>
+  <div class="chips" id="chips"></div>
+  <p class="err" id="err" role="alert"></p>
+
+  <section id="result" aria-live="polite">
+    <div class="card">
+      <div class="top">
+        <div class="ring">
+          <svg viewBox="0 0 120 120"><circle class="tr" cx="60" cy="60" r="54"/><circle class="fg" id="fg" cx="60" cy="60" r="54"/></svg>
+          <div class="em" id="em"></div>
+        </div>
+        <div>
+          <div class="name" id="name"></div>
+          <div class="pct"><b id="pct">0%</b> confident</div>
+        </div>
+      </div>
+      <div class="bars" id="bars"></div>
+    </div>
+  </section>
+  <footer>Tip: press Ctrl + Enter to analyze.</footer>
+</main>
+
+<script src="/static/script.js"></script>
 </body>
 </html>

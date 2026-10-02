@@ -1,0 +1,73 @@
+@property --c { syntax: '<color>'; inherits: true; initial-value: #8b8fd9; }
+:root{
+  --c:#8b8fd9; --bg:#0d0f1d; --ink:#eceaf6; --mute:#8d90ad; --line:rgba(255,255,255,.09);
+  --glass:rgba(255,255,255,.045);
+  transition:--c .9s ease;
+}
+*{box-sizing:border-box;margin:0}
+html,body{min-height:100%}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.55 'DM Sans',system-ui,sans-serif;
+  display:flex;justify-content:center;padding:clamp(20px,6vw,72px) 18px;overflow-x:hidden}
+/* mood glow: the one memorable thing */
+.glow{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+.glow i{position:absolute;border-radius:50%;filter:blur(90px);opacity:.38;background:var(--c);transition:opacity .9s}
+.glow i:nth-child(1){width:46vmax;height:46vmax;left:-12vmax;top:-14vmax;animation:drift 22s ease-in-out infinite alternate}
+.glow i:nth-child(2){width:36vmax;height:36vmax;right:-10vmax;bottom:-12vmax;opacity:.26;animation:drift 28s ease-in-out infinite alternate-reverse}
+body.busy .glow i{animation-duration:4s}
+@keyframes drift{to{transform:translate(8vmax,6vmax) scale(1.15)}}
+main{width:100%;max-width:640px}
+h1{font:800 clamp(2.4rem,7vw,3.8rem)/1.02 'Bricolage Grotesque',sans-serif;letter-spacing:-.03em}
+h1 span{display:inline-block;opacity:0;transform:translateY(.5em) rotate(4deg);animation:in .7s cubic-bezier(.2,.9,.3,1.2) forwards}
+@keyframes in{to{opacity:1;transform:none}}
+.sub{color:var(--mute);margin:14px 0 30px;max-width:46ch;opacity:0;animation:in .8s .6s forwards}
+.box{background:var(--glass);border:1px solid var(--line);border-radius:22px;padding:18px;
+  backdrop-filter:blur(14px);transition:border-color .4s, box-shadow .4s}
+.box:focus-within{border-color:var(--c);box-shadow:0 0 0 4px color-mix(in srgb,var(--c) 22%,transparent)}
+textarea{width:100%;min-height:120px;resize:none;background:none;border:0;outline:0;color:var(--ink);font:inherit;font-size:1.08rem}
+textarea::placeholder{color:#5f6281}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:10px}
+.count{color:var(--mute);font-size:.82rem;font-variant-numeric:tabular-nums}
+button.go{position:relative;border:0;cursor:pointer;color:#0d0f1d;font:500 1rem 'DM Sans';padding:12px 26px;border-radius:14px;
+  background:var(--c);transition:transform .15s, filter .3s, background .9s;overflow:hidden}
+button.go:hover:not(:disabled){transform:translateY(-2px);filter:brightness(1.1)}
+button.go:active:not(:disabled){transform:scale(.96)}
+button.go:disabled{opacity:.45;cursor:not-allowed}
+button.go.loading::after{content:'';position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.55),transparent 70%);animation:sheen .9s linear infinite}
+@keyframes sheen{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{background:none;border:1px solid var(--line);color:var(--mute);padding:7px 13px;border-radius:99px;cursor:pointer;font:inherit;font-size:.86rem;transition:.25s}
+.chip:hover{color:var(--ink);border-color:var(--c);transform:translateY(-2px)}
+/* result */
+#result{margin-top:26px;display:none}
+#result.show{display:block}
+.card{background:var(--glass);border:1px solid var(--line);border-radius:22px;padding:26px;backdrop-filter:blur(14px);
+  animation:pop .6s cubic-bezier(.2,.9,.3,1.15)}
+@keyframes pop{from{opacity:0;transform:translateY(24px) scale(.97)}}
+.top{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+.ring{position:relative;width:128px;height:128px;flex:none}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring circle{fill:none;stroke-width:8;stroke-linecap:round}
+.ring .tr{stroke:var(--line)}
+.ring .fg{stroke:var(--c);stroke-dasharray:339.3;stroke-dashoffset:339.3;transition:stroke-dashoffset 1.3s cubic-bezier(.2,.8,.2,1),stroke .9s}
+.ring .em{position:absolute;inset:0;display:grid;place-items:center;font-size:3.2rem;animation:bob 3s ease-in-out infinite}
+.ring .em.swap{animation:land .7s cubic-bezier(.2,1.4,.4,1)}
+@keyframes land{from{transform:scale(0) rotate(-40deg)}}
+@keyframes bob{50%{transform:translateY(-5px)}}
+.name{font:800 2.3rem/1 'Bricolage Grotesque';letter-spacing:-.02em;text-transform:capitalize;color:var(--c);transition:color .9s}
+.pct{color:var(--mute);margin-top:6px}
+.pct b{color:var(--ink);font-weight:500;font-variant-numeric:tabular-nums}
+.bars{margin-top:26px;display:grid;gap:11px}
+.bar{display:grid;grid-template-columns:92px 1fr 52px;align-items:center;gap:12px;font-size:.9rem;color:var(--mute)}
+.bar .t{height:8px;border-radius:9px;background:var(--line);overflow:hidden}
+.bar .f{height:100%;width:0;border-radius:9px;background:var(--mute);transition:width 1.1s cubic-bezier(.2,.8,.2,1)}
+.bar.top1{color:var(--ink)} .bar.top1 .f{background:var(--c)}
+.bar span:last-child{text-align:right;font-variant-numeric:tabular-nums}
+.err{margin-top:16px;color:#ff9a9a;font-size:.92rem;display:none}
+.err.show{display:block;animation:shake .4s}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.fl{position:fixed;pointer-events:none;font-size:1.6rem;z-index:5;animation:fly 2s ease-out forwards}
+@keyframes fly{from{opacity:1;transform:translate(0,0) scale(.4)}to{opacity:0;transform:translate(var(--x),var(--y)) scale(1.3) rotate(var(--r))}}
+footer{margin-top:34px;color:#5f6281;font-size:.82rem}
+@media(max-width:480px){.bar{grid-template-columns:76px 1fr 46px}.top{justify-content:center;text-align:center}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}h1 span,.sub{opacity:1;transform:none}}
+:focus-visible{outline:2px solid var(--c);outline-offset:3px}
